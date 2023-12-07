@@ -313,21 +313,6 @@ obs_properties_t *ndi_source_getproperties(void *)
 	obs_properties_add_bool(props, PROP_AUDIO,
 				obs_module_text("NDIPlugin.SourceProps.Audio"));
 
-	obs_properties_t *group_ptz = obs_properties_create();
-	obs_properties_add_float_slider(
-		group_ptz, PROP_PAN,
-		obs_module_text("NDIPlugin.SourceProps.Pan"), -1.0, 1.0, 0.001);
-	obs_properties_add_float_slider(
-		group_ptz, PROP_TILT,
-		obs_module_text("NDIPlugin.SourceProps.Tilt"), -1.0, 1.0,
-		0.001);
-	obs_properties_add_float_slider(
-		group_ptz, PROP_ZOOM,
-		obs_module_text("NDIPlugin.SourceProps.Zoom"), 0.0, 1.0, 0.001);
-	obs_properties_add_group(props, PROP_PTZ,
-				 obs_module_text("NDIPlugin.SourceProps.PTZ"),
-				 OBS_GROUP_CHECKABLE, group_ptz);
-
 	auto ndi_website = obs_module_text("NDIPlugin.NDIWebsite");
 	obs_properties_add_button2(
 		props, "ndi_website", ndi_website,
