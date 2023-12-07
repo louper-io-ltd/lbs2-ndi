@@ -19,7 +19,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #ifndef OBSNDI_H
 #define OBSNDI_H
 
-#include <Processing.NDI.Lib.h>
+#include "Processing.NDI.Lib.h"
 
 #define OBS_NDI_ALPHA_FILTER_ID "premultiplied_alpha_filter"
 

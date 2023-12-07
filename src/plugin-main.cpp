@@ -23,7 +23,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include <sys/stat.h>
 
 #include <obs-module.h>
-#include <plugin-support.h>
+#include "plugin-support.h"
 #include <obs-frontend-api.h>
 #include <util/platform.h>
 #include <QDir>
@@ -41,6 +41,9 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include "preview-output.h"
 #include "Config.h"
 #include "forms/output-settings.h"
+
+const char *PLUGIN_NAME = "obs-ndi";
+const char *PLUGIN_VERSION = "4.13.0";
 
 OBS_DECLARE_MODULE()
 OBS_MODULE_USE_DEFAULT_LOCALE(PLUGIN_NAME, "en-US")
