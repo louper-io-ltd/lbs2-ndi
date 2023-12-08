@@ -45,6 +45,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #define PROP_PAN "ndi_pan"
 #define PROP_TILT "ndi_tilt"
 #define PROP_ZOOM "ndi_zoom"
+#define PROP_LBS_ADVANCED "ndi_lbs_advanced"
 
 #define PROP_BW_UNDEFINED -1
 #define PROP_BW_HIGHEST 0
@@ -197,6 +198,45 @@ const char *ndi_source_getname(void *)
 	return obs_module_text("NDIPlugin.NDISourceName");
 }
 
+static auto LbsAreAdvancedPropertiesVisible(obs_properties_t *props) -> bool
+{
+    auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
+    return obs_property_visible(bandwidthProperty);
+}
+
+static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visible) -> void
+{
+    auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
+    auto syncProperty = obs_properties_get(props, PROP_SYNC);
+    auto framesyncProperty = obs_properties_get(props, PROP_FRAMESYNC);
+    auto hwAccelProperty = obs_properties_get(props, PROP_HW_ACCEL);
+    auto fixAlphaProperty = obs_properties_get(props, PROP_FIX_ALPHA);
+    auto yuwRangeProperty = obs_properties_get(props, PROP_YUV_RANGE);
+    auto yuwColorspaceProperty = obs_properties_get(props, PROP_YUV_COLORSPACE);
+    auto latencyProperty = obs_properties_get(props, PROP_LATENCY);
+    auto audioProperty = obs_properties_get(props, PROP_AUDIO);
+
+    obs_property_set_visible(bandwidthProperty, visible);
+    obs_property_set_visible(syncProperty, visible);
+    obs_property_set_visible(framesyncProperty, visible);
+    obs_property_set_visible(hwAccelProperty, visible);
+    obs_property_set_visible(fixAlphaProperty, visible);
+    obs_property_set_visible(yuwRangeProperty, visible);
+    obs_property_set_visible(yuwColorspaceProperty, visible);
+    obs_property_set_visible(latencyProperty, visible);
+    obs_property_set_visible(audioProperty, visible);
+
+    const char* buttonText{};
+    if (visible) {
+        buttonText = obs_module_text("NDIPlugin.LbsHideAdvanced");
+    } else {
+        buttonText = obs_module_text("NDIPlugin.LbsShowAdvanced");
+    }
+
+    auto lbsAdvancedProperty = obs_properties_get(props, PROP_LBS_ADVANCED);
+    obs_property_set_description(lbsAdvancedProperty, buttonText);
+}
+
 obs_properties_t *ndi_source_getproperties(void *)
 {
 	obs_properties_t *props = obs_properties_create();
@@ -245,8 +285,10 @@ obs_properties_t *ndi_source_getproperties(void *)
 		obs_property_t *yuv_colorspace =
 			obs_properties_get(props, PROP_YUV_COLORSPACE);
 
-		obs_property_set_visible(yuv_range, !is_audio_only);
-		obs_property_set_visible(yuv_colorspace, !is_audio_only);
+        auto yuvVisible = LbsAreAdvancedPropertiesVisible(props) && (!is_audio_only);
+
+		obs_property_set_visible(yuv_range, yuvVisible);
+		obs_property_set_visible(yuv_colorspace, yuvVisible);
 
 		return true;
 	});
@@ -313,32 +355,18 @@ obs_properties_t *ndi_source_getproperties(void *)
 	obs_properties_add_bool(props, PROP_AUDIO,
 				obs_module_text("NDIPlugin.SourceProps.Audio"));
 
-	auto ndi_website = obs_module_text("NDIPlugin.NDIWebsite");
 	obs_properties_add_button2(
-		props, "ndi_website", ndi_website,
-		[](obs_properties_t *, obs_property_t *, void *data) {
-#if defined(__linux__)
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wshadow"
-#endif
-			QString ndi_website = (const char *)data;
-#if defined(__linux__)
-#pragma GCC diagnostic pop
-#endif
-
-#if defined(_WIN32)
-			ShellExecute(NULL, L"open",
-				     (const wchar_t *)ndi_website.utf16(), NULL,
-				     NULL, SW_SHOWNORMAL);
-#elif defined(__linux__) || defined(__APPLE__)
-			(void)!system(QString("open %1")
-					      .arg(ndi_website)
-					      .toUtf8()
-					      .constData());
-#endif
+		props, PROP_LBS_ADVANCED, "",
+		[](obs_properties_t * internalProps, obs_property_t *, void *) {
+            auto oldVisible = LbsAreAdvancedPropertiesVisible(internalProps);
+            auto newVisible = !oldVisible;
+            
+            LbsSetAdvancedPropertiesVisible(internalProps, newVisible);
 			return true;
 		},
-		(void *)ndi_website);
+		nullptr);
+    
+    LbsSetAdvancedPropertiesVisible(props, false);
 
 	return props;
 }
