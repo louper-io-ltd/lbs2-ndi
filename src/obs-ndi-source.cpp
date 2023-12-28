@@ -373,6 +373,14 @@ obs_properties_t *ndi_source_getproperties(void *)
 
 void ndi_source_getdefaults(obs_data_t *settings)
 {
+    uint32_t nbSources = 0;
+    const NDIlib_source_t *sources = ndiLib->find_get_current_sources(ndi_finder, &nbSources);
+    //
+    if (nbSources > 0) {
+        const char* firstSourceName = sources[0].p_ndi_name;
+        obs_data_set_default_string(settings, PROP_SOURCE, firstSourceName);
+    }
+
 	obs_data_set_default_int(settings, PROP_BANDWIDTH, PROP_BW_HIGHEST);
 	obs_data_set_default_int(settings, PROP_SYNC,
 				 PROP_SYNC_NDI_SOURCE_TIMECODE);
