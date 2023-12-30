@@ -291,7 +291,7 @@ void ndi_output_destroy(void *data)
 		o->audio_conv_buffer = nullptr;
 	}
 	bfree(o);
-	blog(LOG_INFO, "[obs-ndi] -ndi_output_destroy('%s'...)", o->ndi_name);
+	//blog(LOG_INFO, "[obs-ndi] -ndi_output_destroy('%s'...)", o->ndi_name);
 }
 
 void ndi_output_rawvideo(void *data, video_data *frame)
