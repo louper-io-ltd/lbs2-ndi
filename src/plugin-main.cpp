@@ -243,13 +243,19 @@ void obs_module_unload(void)
 const NDIlib_v4 *load_ndilib()
 {
 	QStringList locations;
+#ifndef __APPLE__
 	QString path = QString(qgetenv(NDILIB_REDIST_FOLDER));
 	if (!path.isEmpty()) {
 		locations << path;
 	}
-#if defined(__linux__) || defined(__APPLE__)
+#else
+	QString path{};
+#endif
+#if defined(__linux__)
 	locations << "/usr/lib";
 	locations << "/usr/local/lib";
+#elif defined(__APPLE__)
+	locations <<  QCoreApplication::applicationDirPath() + "/../PlugIns";
 #endif
 	for (QString location : locations) {
 		path = QDir::cleanPath(
