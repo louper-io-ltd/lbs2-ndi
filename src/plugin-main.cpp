@@ -101,22 +101,22 @@ bool obs_module_load(void)
 		blog(LOG_ERROR,
 		     "[obs-ndi] obs_module_load: load_ndilib() failed; Module won't load.");
 
-		const char *redist_url_name = "";
+        //const char *redist_url_name = "";
 #ifdef _MSC_VER
 		// Windows
-		redist_url_name = "NDIPlugin.RedistUrl.Win";
+        //redist_url_name = "NDIPlugin.RedistUrl.Win";
 #else
 #ifdef __APPLE__
 		// MacOS
-		redist_url_name = "NDIPlugin.RedistUrl.MacOS";
+        //redist_url_name = "NDIPlugin.RedistUrl.MacOS";
 #else
 		// Linux
-		redist_url_name = "NDIPlugin.RedistUrl.Linux";
+        //redist_url_name = "NDIPlugin.RedistUrl.Linux";
 #endif
 #endif
-		QString redist_url = obs_module_text(redist_url_name);
-		QString message = obs_module_text("NDIPlugin.LibError.Message");
-		message += QString("<br><a href='%1'>%1</a>").arg(redist_url);
+        //QString redist_url = obs_module_text(redist_url_name);
+		QString message = "NDI™ Runtime not found.<br><br>Please run the LBS installer and install \"NDI Support for LBS\".";
+        //message += QString("<br><a href='%1'>%1</a>").arg(redist_url);
 
 		QMessageBox::critical(
 			main_window,
@@ -255,7 +255,7 @@ const NDIlib_v4 *load_ndilib()
 	locations << "/usr/lib";
 	locations << "/usr/local/lib";
 #elif defined(__APPLE__)
-	locations <<  QCoreApplication::applicationDirPath() + "/../PlugIns";
+    locations << "/Library/Application Support/Louper/NDI";
 #endif
 	for (QString location : locations) {
 		path = QDir::cleanPath(
