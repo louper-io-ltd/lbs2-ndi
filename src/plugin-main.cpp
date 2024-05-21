@@ -255,7 +255,7 @@ const NDIlib_v4 *load_ndilib()
 	locations << "/usr/lib";
 	locations << "/usr/local/lib";
 #elif defined(__APPLE__)
-    locations << "/Library/Application Support/Louper/NDI";
+    locations << "/Library/Application Support/Louper/NDI5";
 #endif
 	for (QString location : locations) {
 		path = QDir::cleanPath(

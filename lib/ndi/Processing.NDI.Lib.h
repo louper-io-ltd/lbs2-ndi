@@ -59,7 +59,7 @@
 #		endif // PROCESSINGNDILIB_EXPORTS
 #	else // _WIN32
 #		ifdef __APPLE__
-#			define NDILIB_LIBRARY_NAME  "libndi.lbs.dylib"
+#			define NDILIB_LIBRARY_NAME  "libndi.5.lbs.dylib"
 #			define NDILIB_REDIST_FOLDER "NDI_RUNTIME_DIR_V5"
 #			define NDILIB_REDIST_URL    "http://ndi.link/NDIRedistV5Apple"
 #		else // __APPLE__
