@@ -45,7 +45,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #define PROP_PAN "ndi_pan"
 #define PROP_TILT "ndi_tilt"
 #define PROP_ZOOM "ndi_zoom"
-#define PROP_LBS_ADVANCED "ndi_lbs_advanced"
+#define PROP_LDE_ADVANCED "ndi_lbs_advanced"
 
 #define PROP_BW_UNDEFINED -1
 #define PROP_BW_HIGHEST 0
@@ -233,7 +233,7 @@ static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visibl
         buttonText = obs_module_text("NDIPlugin.LdeShowAdvanced");
     }
 
-    auto lbsAdvancedProperty = obs_properties_get(props, PROP_LBS_ADVANCED);
+    auto lbsAdvancedProperty = obs_properties_get(props, PROP_LDE_ADVANCED);
     obs_property_set_description(lbsAdvancedProperty, buttonText);
 }
 
@@ -356,7 +356,7 @@ obs_properties_t *ndi_source_getproperties(void *)
 				obs_module_text("NDIPlugin.SourceProps.Audio"));
 
 	obs_properties_add_button2(
-		props, PROP_LBS_ADVANCED, "",
+		props, PROP_LDE_ADVANCED, "",
 		[](obs_properties_t * internalProps, obs_property_t *, void *) {
             auto oldVisible = LbsAreAdvancedPropertiesVisible(internalProps);
             auto newVisible = !oldVisible;
