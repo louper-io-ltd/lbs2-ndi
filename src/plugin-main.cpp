@@ -55,7 +55,7 @@ const char *obs_module_name()
 
 const char *obs_module_description()
 {
-	return "NDI input/output integration for OBS Studio";
+	return "NDI input/output integration for LBS";
 }
 
 const NDIlib_v4 *ndiLib = nullptr;
