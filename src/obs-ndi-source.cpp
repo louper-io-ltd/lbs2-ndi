@@ -45,7 +45,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #define PROP_PAN "ndi_pan"
 #define PROP_TILT "ndi_tilt"
 #define PROP_ZOOM "ndi_zoom"
-#define PROP_LBS_ADVANCED "ndi_lbs_advanced"
+#define PROP_LDE_ADVANCED "ndi_lde_advanced"
 
 #define PROP_BW_UNDEFINED -1
 #define PROP_BW_HIGHEST 0
@@ -198,13 +198,13 @@ const char *ndi_source_getname(void *)
 	return obs_module_text("NDIPlugin.NDISourceName");
 }
 
-static auto LbsAreAdvancedPropertiesVisible(obs_properties_t *props) -> bool
+static auto LdeAreAdvancedPropertiesVisible(obs_properties_t *props) -> bool
 {
     auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
     return obs_property_visible(bandwidthProperty);
 }
 
-static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visible) -> void
+static auto LdeSetAdvancedPropertiesVisible(obs_properties_t *props, bool visible) -> void
 {
     auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
     auto syncProperty = obs_properties_get(props, PROP_SYNC);
@@ -228,13 +228,13 @@ static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visibl
 
     const char* buttonText{};
     if (visible) {
-        buttonText = obs_module_text("NDIPlugin.LbsHideAdvanced");
+        buttonText = obs_module_text("NDIPlugin.LdeHideAdvanced");
     } else {
-        buttonText = obs_module_text("NDIPlugin.LbsShowAdvanced");
+        buttonText = obs_module_text("NDIPlugin.LdeShowAdvanced");
     }
 
-    auto lbsAdvancedProperty = obs_properties_get(props, PROP_LBS_ADVANCED);
-    obs_property_set_description(lbsAdvancedProperty, buttonText);
+    auto ldeAdvancedProperty = obs_properties_get(props, PROP_LDE_ADVANCED);
+    obs_property_set_description(ldeAdvancedProperty, buttonText);
 }
 
 obs_properties_t *ndi_source_getproperties(void *)
@@ -285,7 +285,7 @@ obs_properties_t *ndi_source_getproperties(void *)
 		obs_property_t *yuv_colorspace =
 			obs_properties_get(props, PROP_YUV_COLORSPACE);
 
-        auto yuvVisible = LbsAreAdvancedPropertiesVisible(props) && (!is_audio_only);
+        auto yuvVisible = LdeAreAdvancedPropertiesVisible(props) && (!is_audio_only);
 
 		obs_property_set_visible(yuv_range, yuvVisible);
 		obs_property_set_visible(yuv_colorspace, yuvVisible);
@@ -356,17 +356,17 @@ obs_properties_t *ndi_source_getproperties(void *)
 				obs_module_text("NDIPlugin.SourceProps.Audio"));
 
 	obs_properties_add_button2(
-		props, PROP_LBS_ADVANCED, "",
+		props, PROP_LDE_ADVANCED, "",
 		[](obs_properties_t * internalProps, obs_property_t *, void *) {
-            auto oldVisible = LbsAreAdvancedPropertiesVisible(internalProps);
+            auto oldVisible = LdeAreAdvancedPropertiesVisible(internalProps);
             auto newVisible = !oldVisible;
-            
-            LbsSetAdvancedPropertiesVisible(internalProps, newVisible);
+
+            LdeSetAdvancedPropertiesVisible(internalProps, newVisible);
 			return true;
 		},
 		nullptr);
-    
-    LbsSetAdvancedPropertiesVisible(props, false);
+
+    LdeSetAdvancedPropertiesVisible(props, false);
 
 	return props;
 }
