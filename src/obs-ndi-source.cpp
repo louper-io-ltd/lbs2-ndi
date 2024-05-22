@@ -198,13 +198,13 @@ const char *ndi_source_getname(void *)
 	return obs_module_text("NDIPlugin.NDISourceName");
 }
 
-static auto LbsAreAdvancedPropertiesVisible(obs_properties_t *props) -> bool
+static auto LdeAreAdvancedPropertiesVisible(obs_properties_t *props) -> bool
 {
     auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
     return obs_property_visible(bandwidthProperty);
 }
 
-static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visible) -> void
+static auto LdeSetAdvancedPropertiesVisible(obs_properties_t *props, bool visible) -> void
 {
     auto bandwidthProperty = obs_properties_get(props, PROP_BANDWIDTH);
     auto syncProperty = obs_properties_get(props, PROP_SYNC);
@@ -285,7 +285,7 @@ obs_properties_t *ndi_source_getproperties(void *)
 		obs_property_t *yuv_colorspace =
 			obs_properties_get(props, PROP_YUV_COLORSPACE);
 
-        auto yuvVisible = LbsAreAdvancedPropertiesVisible(props) && (!is_audio_only);
+        auto yuvVisible = LdeAreAdvancedPropertiesVisible(props) && (!is_audio_only);
 
 		obs_property_set_visible(yuv_range, yuvVisible);
 		obs_property_set_visible(yuv_colorspace, yuvVisible);
@@ -358,15 +358,15 @@ obs_properties_t *ndi_source_getproperties(void *)
 	obs_properties_add_button2(
 		props, PROP_LDE_ADVANCED, "",
 		[](obs_properties_t * internalProps, obs_property_t *, void *) {
-            auto oldVisible = LbsAreAdvancedPropertiesVisible(internalProps);
+            auto oldVisible = LdeAreAdvancedPropertiesVisible(internalProps);
             auto newVisible = !oldVisible;
 
-            LbsSetAdvancedPropertiesVisible(internalProps, newVisible);
+            LdeSetAdvancedPropertiesVisible(internalProps, newVisible);
 			return true;
 		},
 		nullptr);
 
-    LbsSetAdvancedPropertiesVisible(props, false);
+    LdeSetAdvancedPropertiesVisible(props, false);
 
 	return props;
 }
