@@ -228,9 +228,9 @@ static auto LbsSetAdvancedPropertiesVisible(obs_properties_t *props, bool visibl
 
     const char* buttonText{};
     if (visible) {
-        buttonText = obs_module_text("NDIPlugin.LbsHideAdvanced");
+        buttonText = obs_module_text("NDIPlugin.LdeHideAdvanced");
     } else {
-        buttonText = obs_module_text("NDIPlugin.LbsShowAdvanced");
+        buttonText = obs_module_text("NDIPlugin.LdeShowAdvanced");
     }
 
     auto lbsAdvancedProperty = obs_properties_get(props, PROP_LBS_ADVANCED);
@@ -360,12 +360,12 @@ obs_properties_t *ndi_source_getproperties(void *)
 		[](obs_properties_t * internalProps, obs_property_t *, void *) {
             auto oldVisible = LbsAreAdvancedPropertiesVisible(internalProps);
             auto newVisible = !oldVisible;
-            
+
             LbsSetAdvancedPropertiesVisible(internalProps, newVisible);
 			return true;
 		},
 		nullptr);
-    
+
     LbsSetAdvancedPropertiesVisible(props, false);
 
 	return props;
