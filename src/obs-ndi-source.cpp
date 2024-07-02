@@ -383,7 +383,7 @@ void ndi_source_getdefaults(obs_data_t *settings)
 
 	obs_data_set_default_int(settings, PROP_BANDWIDTH, PROP_BW_HIGHEST);
 	obs_data_set_default_int(settings, PROP_SYNC,
-				 PROP_SYNC_NDI_SOURCE_TIMECODE);
+				 PROP_SYNC_NDI_TIMESTAMP);
 	obs_data_set_default_int(settings, PROP_YUV_RANGE,
 				 PROP_YUV_RANGE_PARTIAL);
 	obs_data_set_default_int(settings, PROP_YUV_COLORSPACE,
@@ -937,9 +937,9 @@ void ndi_source_update(void *data, obs_data_t *settings)
 	// if sync mode is set to the unsupported "Internal" mode, set it
 	// to "Source Timing" mode and apply that change to the settings data
 	if (config.sync_mode == PROP_SYNC_INTERNAL) {
-		config.sync_mode = PROP_SYNC_NDI_SOURCE_TIMECODE;
+		config.sync_mode = PROP_SYNC_NDI_TIMESTAMP;
 		obs_data_set_int(settings, PROP_SYNC,
-				 PROP_SYNC_NDI_SOURCE_TIMECODE);
+				 PROP_SYNC_NDI_TIMESTAMP);
 	}
 
 	config.framesync_enabled = obs_data_get_bool(settings, PROP_FRAMESYNC);
