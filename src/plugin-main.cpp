@@ -163,17 +163,17 @@ bool obs_module_load(void)
 			conf->PreviewOutputName.toUtf8().constData());
 
 		// Ui setup
-		QAction *menu_action =
-			(QAction *)obs_frontend_add_tools_menu_qaction(
-				obs_module_text(
-					"NDIPlugin.Menu.OutputSettings"));
+		// QAction *menu_action =
+		// 	(QAction *)obs_frontend_add_tools_menu_qaction(
+		// 		obs_module_text(
+		// 			"NDIPlugin.Menu.OutputSettings"));
 
 		obs_frontend_push_ui_translation(obs_module_get_string);
 		output_settings = new OutputSettings(main_window);
 		obs_frontend_pop_ui_translation();
 
-		auto menu_cb = [] { output_settings->ToggleShowHide(); };
-		menu_action->connect(menu_action, &QAction::triggered, menu_cb);
+		// auto menu_cb = [] { output_settings->ToggleShowHide(); };
+		// menu_action->connect(menu_action, &QAction::triggered, menu_cb);
 
 		obs_frontend_add_event_callback(
 			[](enum obs_frontend_event event, void *private_data) {
