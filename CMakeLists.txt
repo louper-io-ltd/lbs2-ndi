@@ -40,7 +40,14 @@ target_sources(
 
 target_include_directories(obs-ndi PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/ndi)
 
-set_target_properties_obs(obs-ndi PROPERTIES
-  FOLDER plugins
-  PREFIX ""
-  OUTPUT_NAME obs-ndi)
+if(OS_LINUX)
+  set_target_properties(obs-ndi PROPERTIES
+    FOLDER plugins
+    PREFIX ""
+    OUTPUT_NAME obs-ndi)
+else()
+  set_target_properties_obs(obs-ndi PROPERTIES
+    FOLDER plugins
+    PREFIX ""
+    OUTPUT_NAME obs-ndi)
+endif()
