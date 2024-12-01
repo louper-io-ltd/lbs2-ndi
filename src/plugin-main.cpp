@@ -55,7 +55,7 @@ const char *obs_module_name()
 
 const char *obs_module_description()
 {
-	return "NDI input/output integration for LBS";
+	return "NDI input/output integration for LDE";
 }
 
 const NDIlib_v4 *ndiLib = nullptr;
@@ -115,7 +115,7 @@ bool obs_module_load(void)
 #endif
 #endif
         //QString redist_url = obs_module_text(redist_url_name);
-		QString message = "NDI™ Runtime not found.<br><br>Please run the LBS installer and install \"NDI Support for LBS\".";
+		QString message = "NDI™ Runtime not found.<br><br>Please run the LDE installer and install \"NDI Support for LDE\".";
         //message += QString("<br><a href='%1'>%1</a>").arg(redist_url);
 
 		QMessageBox::critical(
@@ -163,17 +163,17 @@ bool obs_module_load(void)
 			conf->PreviewOutputName.toUtf8().constData());
 
 		// Ui setup
-		QAction *menu_action =
-			(QAction *)obs_frontend_add_tools_menu_qaction(
-				obs_module_text(
-					"NDIPlugin.Menu.OutputSettings"));
+		// QAction *menu_action =
+		// 	(QAction *)obs_frontend_add_tools_menu_qaction(
+		// 		obs_module_text(
+		// 			"NDIPlugin.Menu.OutputSettings"));
 
 		obs_frontend_push_ui_translation(obs_module_get_string);
 		output_settings = new OutputSettings(main_window);
 		obs_frontend_pop_ui_translation();
 
-		auto menu_cb = [] { output_settings->ToggleShowHide(); };
-		menu_action->connect(menu_action, &QAction::triggered, menu_cb);
+		// auto menu_cb = [] { output_settings->ToggleShowHide(); };
+		// menu_action->connect(menu_action, &QAction::triggered, menu_cb);
 
 		obs_frontend_add_event_callback(
 			[](enum obs_frontend_event event, void *private_data) {
@@ -252,8 +252,9 @@ const NDIlib_v4 *load_ndilib()
 	QString path{};
 #endif
 #if defined(__linux__)
-	locations << "/usr/lib";
+	locations << "/app/lib";
 	locations << "/usr/local/lib";
+	locations << "/usr/lib";
 #elif defined(__APPLE__)
     locations << "/Library/Application Support/Louper/NDI5";
 #endif
