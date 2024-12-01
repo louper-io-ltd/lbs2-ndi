@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 3.16...3.26)
 
+if(OS_LINUX)
+  legacy_check()
+endif()
+
 add_library(obs-ndi MODULE)
 
 target_link_libraries(obs-ndi PRIVATE OBS::libobs)
@@ -40,14 +44,7 @@ target_sources(
 
 target_include_directories(obs-ndi PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/lib/ndi)
 
-if(OS_LINUX)
-  set_target_properties(obs-ndi PROPERTIES
-    FOLDER plugins
-    PREFIX ""
-    OUTPUT_NAME obs-ndi)
-else()
-  set_target_properties_obs(obs-ndi PROPERTIES
-    FOLDER plugins
-    PREFIX ""
-    OUTPUT_NAME obs-ndi)
-endif()
+set_target_properties_obs(obs-ndi PROPERTIES
+  FOLDER plugins/obs-ndi
+  PREFIX ""
+  OUTPUT_NAME obs-ndi)
