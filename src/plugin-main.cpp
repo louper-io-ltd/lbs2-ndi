@@ -252,8 +252,9 @@ const NDIlib_v4 *load_ndilib()
 	QString path{};
 #endif
 #if defined(__linux__)
-	locations << "/usr/lib";
+	locations << "/app/lib";
 	locations << "/usr/local/lib";
+	locations << "/usr/lib";
 #elif defined(__APPLE__)
     locations << "/Library/Application Support/Louper/NDI5";
 #endif
